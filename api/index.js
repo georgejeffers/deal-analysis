@@ -3,30 +3,68 @@ import cheerio from 'cheerio';
 
 export default async function handler(req, res) {
   const { url } = req.query;
+  
+  if (!url) {
+    return res.status(400).json({ error: 'URL parameter is required' });
+  }
+
   try {
     const response = await axios.get(url);
     const $ = cheerio.load(response.data);
     
-    // Extract data from the HTML using cheerio
     const listings = [];
-    $('.s-item').each((index, element) => {
-      if (index < 12) {
-        const price = $(element).find('.s-item__price').text();
-        const link = $(element).find('.s-item__link').attr('href');
-        const dateElement = $(element).find('.s-item__caption, .s-item__caption--signal POSITIVE');
-        const dateText = dateElement.text();
-        
-        if (price && link && dateText) {
-          listings.push({ price, link, date: dateText });
-        }
+    let firstImageUrl = null;
+    let totalListings = 0;
+
+    // Extract total listings count
+    const totalListingsText = $('.srp-controls__count-heading').text().trim();
+    const match = totalListingsText.match(/(\d+(?:,\d+)*)/);
+    if (match) {
+      totalListings = parseInt(match[1].replace(/,/g, ''));
+    }
+
+    $('.s-item').slice(1).each((index, element) => {
+      const price = $(element).find('.s-item__price').text().replace(/[^0-9.]/g, '');
+      let link = $(element).find('.s-item__link').attr('href');
+      const dateElement = $(element).find('.s-item__caption, .s-item__caption--signal POSITIVE');
+      const dateText = dateElement.text().replace('Sold ', '');
+      const date = parseEbayDate(dateText);
+
+      if (index === 1) {
+        firstImageUrl = $(element).find('.s-item__image-wrapper img').attr('src');
+      }
+
+      if (price && link && date) {
+        listings.push({ price: parseFloat(price), date, link });
       }
     });
 
-    const totalListings = $('.srp-controls__count-heading').text().match(/\d+/)[0];
+    const averagePrice = calculateAveragePrice(listings);
+    const averageSaleSpeed = calculateAverageSaleSpeed(listings);
 
-    res.status(200).json({ listings, totalListings });
+    const result = {
+      listings: listings.slice(0, 10),
+      firstImageUrl,
+      averagePrice,
+      averageSaleSpeed,
+      totalListings,
+    };
+
+    res.status(200).json(result);
   } catch (error) {
-    console.error('Error in API route:', error);
-    res.status(500).json({ error: 'An error occurred', details: error.message });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while fetching data', details: error.message });
   }
+}
+
+function parseEbayDate(dateText) {
+  // ... (keep the existing parseEbayDate function)
+}
+
+function calculateAveragePrice(listings) {
+  // ... (keep the existing calculateAveragePrice function)
+}
+
+function calculateAverageSaleSpeed(listings) {
+  // ... (keep the existing calculateAverageSaleSpeed function)
 }
