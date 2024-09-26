@@ -48,14 +48,14 @@ export default async function handler(req, res) {
       totalListings = parseInt(match[1].replace(/,/g, ''));
     }
 
-    $('.s-item').slice(1).each((index, element) => {
+    $('.s-item').each((index, element) => {
       const price = $(element).find('.s-item__price').text().replace(/[^0-9.]/g, '');
       let link = $(element).find('.s-item__link').attr('href');
-      const dateElement = $(element).find('.s-item__caption, .s-item__caption--signal POSITIVE');
-      const dateText = dateElement.text().replace('Sold ', '');
+      const dateElement = $(element).find('.s-item__title--tagblock').text();
+      const dateText = dateElement.replace('Sold ', '');
       const date = parseEbayDate(dateText);
 
-      if (index === 1) {
+      if (index === 0) {
         firstImageUrl = $(element).find('.s-item__image-wrapper img').attr('src');
       }
 
