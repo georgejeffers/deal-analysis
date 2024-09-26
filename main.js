@@ -1,7 +1,7 @@
 import { searchEbay, analyzeWholesaleDeal } from './script.js';
 
 export async function performAnalysis() {
-    const searchTerm = document.getElementById('searchTerm').value;
+    const searchTerm = document.getElementById('itemName').value;
     const size = document.getElementById('size').value;
     const condition = document.getElementById('condition').value;
     const totalCost = parseFloat(document.getElementById('totalCost').value);
@@ -12,8 +12,9 @@ export async function performAnalysis() {
         const analysis = analyzeWholesaleDeal(ebayData, totalCost, quantity);
         // Display the analysis results (implement this part based on your UI)
         console.log(analysis);
+        document.getElementById('results').innerHTML = JSON.stringify(analysis, null, 2);
     } catch (error) {
         console.error('Error during analysis:', error);
-        // Display error message to the user
+        document.getElementById('results').innerHTML = `Error: ${error.message}`;
     }
 }
