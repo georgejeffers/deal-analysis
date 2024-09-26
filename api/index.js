@@ -1,6 +1,8 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+
 export default async function handler(req, res) {
   const { url } = req.query;
   
@@ -9,8 +11,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('Fetching URL:', url);
-    const response = await axios.get(url);
+    const proxiedUrl = `${CORS_PROXY}${url}`;
+    console.log('Fetching URL:', proxiedUrl);
+    const response = await axios.get(proxiedUrl);
     console.log('Response received, status:', response.status);
     
     const $ = cheerio.load(response.data);
