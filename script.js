@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // Check if we're in a browser environment
 const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
@@ -45,8 +47,8 @@ async function searchEbay({ searchTerm, size, condition }) {
     console.log('Sending request to server for active listings:', activeUrl);
 
     const [soldResponse, activeResponse] = await Promise.all([
-      axios.get(`http://localhost:3000/search`, { params: { url: soldUrl } }),
-      axios.get(`http://localhost:3000/search`, { params: { url: activeUrl } })
+      axios.get(`/api/search`, { params: { url: soldUrl } }),
+      axios.get(`/api/search`, { params: { url: activeUrl } })
     ]);
 
     console.log('Raw server response for sold listings:', soldResponse.data);
