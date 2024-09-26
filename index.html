@@ -90,25 +90,23 @@
 
         .results-content {
             display: flex;
-            gap: 20px;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .results-image {
-            flex: 0 0 auto;
-            max-width: 200px;
+        .results-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
         }
 
-        .results-image img {
-            max-width: 100%;
-            border-radius: var(--border-radius);
+        .results-item:last-child {
+            border-bottom: none;
         }
 
-        .results-info {
-            flex: 1;
-        }
-
-        .results-info p {
-            margin-bottom: 10px;
+        .results-item span {
+            font-weight: bold;
         }
 
         #loading {
