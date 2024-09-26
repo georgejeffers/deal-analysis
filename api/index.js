@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 const PROXY_HOST = 'p.webshare.io';
 const PROXY_PORT = 80;
