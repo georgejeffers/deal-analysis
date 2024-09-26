@@ -1,7 +1,6 @@
 import { searchEbay, analyzeWholesaleDeal } from './script.js';
 
-// Function to perform the analysis (adjust as needed based on your HTML structure)
-async function performAnalysis() {
+export async function performAnalysis() {
     const searchTerm = document.getElementById('searchTerm').value;
     const size = document.getElementById('size').value;
     const condition = document.getElementById('condition').value;
@@ -18,6 +17,3 @@ async function performAnalysis() {
         // Display error message to the user
     }
 }
-
-// Attach the performAnalysis function to the window object so it can be called from HTML
-window.performAnalysis = performAnalysis;

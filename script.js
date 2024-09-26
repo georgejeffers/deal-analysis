@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-// Check if we're in a browser environment
-const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
-
-// If in a browser, use the globally available axios
-const axios = isBrowser ? window.axios : null;
+// Remove these lines as they're no longer needed
+// const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+// const axios = isBrowser ? window.axios : null;
 
 function trimEbayUrl(url) {
     const match = url.match(/(ebay\.co\.uk\/itm\/\d+)/);
