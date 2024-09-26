@@ -234,6 +234,5 @@ function calculateSellThroughTime(quantity, averageSaleSpeed, competitionNumber)
     }
 }
 
-// Make functions globally available
-window.searchEbay = searchEbay;
-window.analyzeWholesaleDeal = analyzeWholesaleDeal;
+// Instead of making functions globally available, export them
+export { searchEbay, analyzeWholesaleDeal };
