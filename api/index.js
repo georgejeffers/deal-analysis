@@ -1,7 +1,10 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+const PROXY_HOST = 'p.webshare.io';
+const PROXY_PORT = 80;
+const PROXY_USER = 'eiejlrib-rotate';
+const PROXY_PASS = 'xe8w6x4jqsdf';
 
 export default async function handler(req, res) {
   const { url } = req.query;
@@ -11,9 +14,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const proxiedUrl = `${CORS_PROXY}${url}`;
+    const proxiedUrl = url;
     console.log('Fetching URL:', proxiedUrl);
     const response = await axios.get(proxiedUrl, {
+      proxy: {
+        host: PROXY_HOST,
+        port: PROXY_PORT,
+        auth: {
+          username: PROXY_USER,
+          password: PROXY_PASS
+        }
+      },
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
         'Accept-Language': 'en-US,en;q=0.9',
