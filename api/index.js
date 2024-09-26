@@ -9,7 +9,10 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('Fetching URL:', url);
     const response = await axios.get(url);
+    console.log('Response received, status:', response.status);
+    
     const $ = cheerio.load(response.data);
     
     const listings = [];
@@ -52,8 +55,15 @@ export default async function handler(req, res) {
 
     res.status(200).json(result);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'An error occurred while fetching data', details: error.message });
+    console.error('Error in API route:', error);
+    if (error.response) {
+      console.error('Error response:', error.response.status, error.response.data);
+    }
+    res.status(500).json({ 
+      error: 'An error occurred while fetching data', 
+      details: error.message,
+      stack: error.stack
+    });
   }
 }
 
