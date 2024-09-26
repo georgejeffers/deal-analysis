@@ -88,6 +88,10 @@ export default async function handler(req, res) {
     console.error('Error in API route:', error);
     if (error.response) {
       console.error('Error response:', error.response.status, error.response.data);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error setting up request:', error.message);
     }
     res.status(500).json({ 
       error: 'An error occurred while fetching data', 
