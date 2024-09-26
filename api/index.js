@@ -18,9 +18,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const proxiedUrl = url;
-    console.log('Fetching URL:', proxiedUrl);
-    const response = await axios.get(proxiedUrl, {
+    console.log('Fetching URL:', url);
+    const response = await axios.get(url, {
       proxy: {
         host: PROXY_HOST,
         port: PROXY_PORT,
@@ -147,3 +146,4 @@ function calculateAverageSaleSpeed(listings) {
   const daysDiff = (new Date(sortedListings[0].date) - new Date(sortedListings[sortedListings.length - 1].date)) / (1000 * 60 * 60 * 24);
   return (listings.length / daysDiff).toFixed(2);
 }
+
